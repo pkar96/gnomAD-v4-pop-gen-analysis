@@ -18,37 +18,37 @@ Applications
 
 Example 
 score_col = "AlphaMissense"
-# input file contains the missense protein language model score in score_col, mutation rate model (eg. - Roulette), allele count from pop gen dataset, Ensembl gene id
+%input file contains the missense protein language model score in score_col, mutation rate model (eg. - Roulette), allele count from pop gen dataset, Ensembl gene id
 input_file = "../Data/missense/df_missense_AC.txt.gz"
-# file where new estimates are stored
+%file where new estimates are stored
 output_file = f"/n/data2/hms/dbmi/sunyaev/lab/pkar/Missense_analysis/final/{score_col}.pkl"
-# need LoF scores to resolve duplicates. Should contain Ensembl gene id, LoF constraint score (higher score -> higher constraint)
+%need LoF scores to resolve duplicates. Should contain Ensembl gene id, LoF constraint score (higher score -> higher constraint)
 lof_ref_path = "../LoF_selection/LoF_s_het.txt.gz"
 
-# MLE params (optimization parameters)
+%MLE params (optimization parameters)
 init_c = 0.1
 init_beta = 1
 init_log_sigma = np.log(0.5551)
 bounds = [(-4, 4), (0, 10), (np.log(dx), np.log(10.0))]
 
-# Run the code to get the estimates
-_,_,_ = Generate_missense.run_pipeline(input_file, output_file, score_col, allele_count_max=5000,
-    sfs_mle_pkl="/n/data2/hms/dbmi/sunyaev/lab/pkar/demography_SFS/sfs.pkl",
-    sfs_variant_pkl="/n/data2/hms/dbmi/sunyaev/lab/pkar/demography_SFS/sfs.pkl",
-    # MLE params
-    init_c=init_c,
-    init_beta=init_beta,
-    init_log_sigma=init_log_sigma,
-    bounds=bounds,
-    maxiter=400,
-    fatol=1e-8,
-    # parallel
-    n_jobs=-1,
-    backend="multiprocessing",
-    verbose=10,
-    # outputs
-    gene_mle_out_dir=None,
-    # optional LoF dedup
-    lof_ref_path=lof_ref_path,
-    lof_ref_score_col="Posterior_CI10_lower",
+%Run the code to get the estimates
+_,_,_ = Generate_missense.run_pipeline(input_file, output_file, score_col, allele_count_max=5000,  
+    sfs_mle_pkl="/n/data2/hms/dbmi/sunyaev/lab/pkar/demography_SFS/sfs.pkl",  
+    sfs_variant_pkl="/n/data2/hms/dbmi/sunyaev/lab/pkar/demography_SFS/sfs.pkl",  
+    % MLE params  
+    init_c=init_c,  
+    init_beta=init_beta,  
+    init_log_sigma=init_log_sigma,  
+    bounds=bounds,  
+    maxiter=400,  
+    fatol=1e-8,  
+    % parallel  
+    n_jobs=-1,  
+    backend="multiprocessing",  
+    verbose=10,  
+    % outputs  
+    gene_mle_out_dir=None,  
+    % optional LoF dedup  
+    lof_ref_path=lof_ref_path,  
+    lof_ref_score_col="Posterior_CI10_lower",  
     key_cols=None)
